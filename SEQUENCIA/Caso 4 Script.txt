@@ -1,0 +1,37 @@
+
+@startuml
+actor Usuario
+participant Sistema
+database BancoDeDados
+
+Usuario -> Sistema: Acessa funcionalidade "Agendar Coleta de Resíduos"
+Sistema -> Usuario: Solicita localização e tipo de resíduo
+Usuario -> Sistema: Fornece localização e tipo de resíduo
+Sistema -> Usuario: Solicita data e horário disponíveis
+Usuario -> Sistema: Seleciona data e horário desejados
+
+alt Horário disponível
+    Sistema -> BancoDeDados: Verifica disponibilidade e salva agendamento
+    BancoDeDados --> Sistema: Confirmação de agendamento
+    Sistema -> Usuario: Exibe confirmação do agendamento
+else Horário indisponível
+    Sistema -> Sistema: Executa "Confirmar Disponibilidade de Horário"
+    Sistema -> Usuario: Sugere datas e horários alternativos
+    Usuario -> Sistema: Seleciona nova data e horário
+    Sistema -> BancoDeDados: Salva agendamento com os novos dados
+    BancoDeDados --> Sistema: Confirmação de agendamento
+end
+
+Usuario -> Sistema: Solicita visualizar ou editar agendamento
+Sistema -> BancoDeDados: Recupera informações do agendamento
+BancoDeDados --> Sistema: Retorna dados
+Sistema -> Usuario: Exibe detalhes do agendamento
+
+== Fluxo de Exceção ==
+alt Falha de comunicação com o serviço de agendamento
+    Sistema -> Usuario: Exibe mensagem de erro
+    Sistema -> Usuario: Sugere tentar novamente mais tarde
+else Comunicação bem-sucedida
+    Sistema -> Usuario: Processa e confirma o agendamento
+end
+@enduml

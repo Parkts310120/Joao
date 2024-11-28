@@ -1,0 +1,44 @@
+@startuml
+|Usuário|
+start
+:Registrar Resíduo;
+:Escolher tipo de resíduo e quantidade;
+|Sistema|
+:Validar dados de resíduos;
+:Registrar resíduo no banco de dados;
+|Usuário|
+:Exibir mensagem de sucesso;
+stop
+
+|Usuário|
+start
+:Receber Dicas de Consumo Responsável;
+|Sistema|
+:Selecionar perfil do usuário;
+:Exibir dicas personalizadas;
+|Usuário|
+:Visualizar ou ignorar dicas;
+stop
+
+|Usuário|
+start
+:Monitorar Quantidade de Resíduos Recicláveis;
+|Sistema|
+:Exibir relatório de reciclagem (gráfico);
+|Usuário|
+:Escolher intervalo de tempo;
+stop
+
+|Usuário|
+start
+:Agendar Coleta de Resíduos;
+|Sistema|
+:Solicitar localização e tipo de resíduo;
+:Confirmar disponibilidade de horário;
+|Usuário|
+:Escolher data e horário;
+|Sistema|
+:Confirmar agendamento de coleta;
+:Enviar confirmação;
+stop
+@enduml

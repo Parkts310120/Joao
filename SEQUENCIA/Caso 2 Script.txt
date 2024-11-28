@@ -1,0 +1,31 @@
+@startuml
+actor Usuario
+participant Sistema
+database BancoDeDados
+
+Usuario -> Sistema: Acessa funcionalidade "Receber Dicas de Consumo Responsável"
+Sistema -> Sistema: Executa "Selecionar Perfil do Usuário"
+
+alt Dados suficientes sobre o perfil do usuário
+    Sistema -> BancoDeDados: Recupera dados de perfil e resíduos gerados
+    BancoDeDados --> Sistema: Retorna dados
+    Sistema -> Usuario: Exibe lista de dicas personalizadas
+else Dados insuficientes
+    Sistema -> Usuario: Exibe lista de dicas genéricas
+end
+
+Usuario -> Sistema: Clica em uma dica
+Sistema -> Usuario: Exibe detalhes adicionais da dica
+
+Usuario -> Sistema: Marca dica como "Lida" ou "Interessante"
+Sistema -> BancoDeDados: Atualiza status da dica
+BancoDeDados --> Sistema: Confirmação de atualização
+
+== Fluxo de Exceção ==
+alt Erro no carregamento das dicas
+    Sistema -> Usuario: Notifica erro no serviço de recomendação
+    Sistema -> Sistema: Tenta carregar novamente após intervalo de tempo
+else Carregamento bem-sucedido
+    Sistema -> Usuario: Exibe dicas conforme perfil ou genéricas
+end
+@enduml

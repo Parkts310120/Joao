@@ -1,0 +1,29 @@
+
+
+@startuml
+actor Usuario
+participant Sistema
+database BancoDeDados
+
+Usuario -> Sistema: Acessa funcionalidade "Monitorar Quantidade de Resíduos Recicláveis"
+
+alt Dados carregados com sucesso
+    Sistema -> BancoDeDados: Recupera dados de resíduos reciclados
+    BancoDeDados --> Sistema: Retorna dados de resíduos
+    Sistema -> Usuario: Exibe painel com gráficos (diário, semanal, mensal)
+else Falha no carregamento dos gráficos
+    Sistema -> Usuario: Exibe mensagem de erro
+    Sistema -> Sistema: Tenta recarregar os dados
+end
+
+Usuario -> Sistema: Seleciona intervalo de tempo
+alt Dados disponíveis para o intervalo
+    Sistema -> BancoDeDados: Recupera dados do intervalo selecionado
+    BancoDeDados --> Sistema: Retorna dados
+    Sistema -> Usuario: Exibe relatório específico
+else Dados indisponíveis para o intervalo
+    Sistema -> Usuario: Exibe mensagem "Sem resíduos recicláveis no período"
+end
+
+Usuario -> Sistema: Retorna ao menu principal
+@enduml
